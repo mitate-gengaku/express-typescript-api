@@ -3,11 +3,16 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import dotenv from "dotenv"
 
 import { router as indexRouter } from './routes';
 import { router as usersRouter } from './routes/users';
 
 const app = express();
+
+dotenv.config({
+  path: ".env.local"
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req: Request, res: Response, next: NextFunction): void {
   next(createError(404));
